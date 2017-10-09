@@ -1,0 +1,19 @@
+version: '2'
+services:
+  server_app:
+    build: server/.
+    image: test_server_app:v.1.0
+    container_name: test_server_app
+    ports:
+      - "80:80"
+  client_app:
+    build: client/.
+    image: test_client_app:v.1.0
+    container_name: test_client_app
+    links:
+      - server_app
+    depends_on:
+      - server_app
+    environment:
+      - REMOTE_ADDR=http://server_app:80
+
